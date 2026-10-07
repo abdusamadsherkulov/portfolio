@@ -21,6 +21,13 @@ export const profile = {
 
 export const projects: Project[] = [
     {
+        title: "CineList",
+        description: "A movie diary where you rate films, build watchlists and folders, add friends, and chat live, with actor pages and genre filters.",
+        tags: ["Next.js", "React", "TypeScript", "PostgreSQL", "Socket.io", "Tailwind CSS"],
+        live: "https://cinelist-app.vercel.app/",
+        repo: "https://github.com/abdusamadsherkulov/cinelist",
+    },
+    {
         title: "Aeris",
         description: "A weather app with live forecasts, city search suggestions, and an animated sky that changes with the weather.",
         tags: ["Python", "Flask", "JavaScript", "REST API"],
