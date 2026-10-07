@@ -12,7 +12,7 @@ export const profile = {
     intro:
         "I build clean, fast, accessible web interfaces with React, TypeScript and Next.js.",
     about:
-        "Write 2-3 sentences about yourself: what you build, what you're learning, what you're looking for.",
+        "I'm a front-end developer who enjoys turning ideas into clean, fast and responsive web interfaces. I care about simple design, good details and code that's easy to maintain. I'm always learning, and right now I'm exploring AI and cloud services.",
     email: "abdusamadsherkulov@gmail.com",
     github: "https://github.com/abdusamadsherkulov",
     linkedin: "https://linkedin.com/in/abdusamadsherkulov",
@@ -60,4 +60,26 @@ export const skills = [
     "Tailwind CSS",
     "Node.js",
     "Git",
+];
+
+export type Certificate = {
+    title: string;
+    issuer: string;
+    year: string;
+    file: string;
+};
+
+export const certificates: Certificate[] = [
+    {
+        title: "Certificate of Completion: JavaScript Course",
+        issuer: "Udemy",
+        year: "2024",
+        file: "/certificates/javascript.pdf",
+    },
+    {
+        title: "Certificate of Participation: Software Development Internship",
+        issuer: "Itransition",
+        year: "2026",
+        file: "/certificates/itransition.pdf",
+    },
 ];

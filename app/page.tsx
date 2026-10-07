@@ -1,7 +1,8 @@
 import Section from "@/components/Section";
-import { profile, projects, skills } from "@/data/content";
+import { profile, projects, skills, certificates } from "@/data/content";
+import CertificateList from "@/components/CertificateList";
 
-const nav = ["projects", "about", "contact"];
+const nav = ["projects", "about", "certificates", "contact"];
 
 export default function Home() {
   return (
@@ -104,6 +105,11 @@ export default function Home() {
               </li>
             ))}
           </ul>
+        </Section>
+
+        {/* Certificates */}
+        <Section id="certificates" title="Certificates">
+          <CertificateList items={certificates} />
         </Section>
 
         {/* About */}

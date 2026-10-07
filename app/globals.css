@@ -33,3 +33,14 @@ button {
     cursor: none;
   }
 }
+
+@media (pointer: fine) {
+  [data-native-cursor] {
+    cursor: auto;
+  }
+
+  [data-native-cursor] a,
+  [data-native-cursor] button {
+    cursor: pointer;
+  }
+}

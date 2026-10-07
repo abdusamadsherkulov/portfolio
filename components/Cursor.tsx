@@ -13,6 +13,9 @@ export default function Cursor() {
             el.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
             const onLink = (e.target as HTMLElement).closest("a, button");
             el.dataset.hover = onLink ? "true" : "false";
+            el.style.opacity = (e.target as HTMLElement).closest("[data-native-cursor]")
+                ? "0"
+                : "1";
         };
 
         window.addEventListener("mousemove", move);
