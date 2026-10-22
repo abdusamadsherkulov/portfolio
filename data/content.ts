@@ -35,6 +35,13 @@ export const projects: Project[] = [
         repo: "https://github.com/abdusamadsherkulov/Aeris",
     },
     {
+        title: "Pawhome",
+        description: "A weather app with live forecasts, city search suggestions, and an animated sky that changes with the weather.",
+        tags: ["Python", "Flask", "JavaScript", "REST API"],
+        live: "https://pawhome-sam.vercel.app/",
+        repo: "https://github.com/abdusamadsherkulov/pawhome",
+    },
+    {
         title: "Bankist App",
         description:
             "Built while learning JavaScript, then extended with a responsive layout and optimized images. Vanilla HTML, CSS and JS.",
@@ -42,14 +49,6 @@ export const projects: Project[] = [
         live: "https://bankistapp-sigma.vercel.app/",
         repo: "https://github.com/abdusamadsherkulov/BankistApp",
     },
-    {
-        title: "Petcare",
-        description: "One sentence on what it does and why it matters.",
-        tags: ["React", "Node.js"],
-        live: "",
-        repo: "https://github.com/abdusamadsherkulov/petcare.uz",
-    },
-
 ];
 
 export const skills = [
