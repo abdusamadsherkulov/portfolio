@@ -6,8 +6,8 @@ import Cursor from "@/components/Cursor";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Your Name | Front-End Developer",
-  description: "Portfolio of Your Name",
+  title: "Sam Sherkulov | Front-End Developer",
+  description: "Portfolio of Sam Sherkulov",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
