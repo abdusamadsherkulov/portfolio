@@ -35,9 +35,16 @@ export const projects: Project[] = [
         repo: "https://github.com/abdusamadsherkulov/Aeris",
     },
     {
+        title: "CV Platform",
+        description: "A recruiting platform where recruiters define positions and the attributes they need, and candidates build tailored CVs with projects, likes, discussions and search, in English and Russian.",
+        tags: ["React", "Vite", "Tailwind CSS", "Node.js", "Express", "Prisma", "PostgreSQL", "OAuth"],
+        live: "https://cv-platform-0.vercel.app/",
+        repo: "https://github.com/abdusamadsherkulov/cv-platform-0",
+    },
+    {
         title: "Pawhome",
-        description: "A weather app with live forecasts, city search suggestions, and an animated sky that changes with the weather.",
-        tags: ["Python", "Flask", "JavaScript", "REST API"],
+        description: "A pet adoption platform where people list pets with photos, search and filter by type, age and city, save favorites, and send adoption requests that owners approve, with Google sign-in.",
+        tags: ["Next.js", "React", "TypeScript", "Express", "PostgreSQL", "Drizzle ORM", "Tailwind CSS"],
         live: "https://pawhome-sam.vercel.app/",
         repo: "https://github.com/abdusamadsherkulov/pawhome",
     },
