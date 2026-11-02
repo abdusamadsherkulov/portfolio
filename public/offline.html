@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>You're offline</title>
+    <style>
+        :root {
+            --bg: #fff;
+            --fg: #0a0a0a;
+            --muted: #737373;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0a0a0a;
+                --fg: #fff;
+                --muted: #a3a3a3;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            touch-action: none;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            display: block;
+        }
+
+        .sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+        }
+
+        .foot {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 0 1.5rem;
+            text-align: center;
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .foot p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        button {
+            pointer-events: auto;
+            font: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            border: 1px solid var(--muted);
+            background: transparent;
+            color: var(--fg);
+        }
+
+        button:hover {
+            background: var(--fg);
+            color: var(--bg);
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c"></canvas>
+    <h1 class="sr">You're offline</h1>
+    <div class="foot">
+        <p>Move your mouse. Click or tap to scatter the dots.</p>
+        <button onclick="location.reload()">Try again</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("c");
+        const ctx = canvas.getContext("2d");
+        const style = getComputedStyle(document.documentElement);
+        const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+        const RADIUS = 110;
+        const mouse = { x: -9999, y: -9999 };
+        let W, H, particles = [];
+
+        function build() {
+            const dpr = window.devicePixelRatio || 1;
+            W = window.innerWidth;
+            H = window.innerHeight;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            const off = document.createElement("canvas");
+            off.width = W;
+            off.height = H;
+            const o = off.getContext("2d");
+            const text = "offline";
+            o.font = "800 100px " + FONT;
+            const size = Math.min((W * 0.82) / o.measureText(text).width * 100, 260);
+            o.font = "800 " + size + "px " + FONT;
+            o.textAlign = "center";
+            o.textBaseline = "middle";
+            o.fillText(text, W / 2, H / 2 - 20);
+
+            const data = o.getImageData(0, 0, W, H).data;
+            const gap = W < 600 ? 5 : 6;
+            particles = [];
+            for (let y = 0; y < H; y += gap) {
+                for (let x = 0; x < W; x += gap) {
+                    if (data[(y * W + x) * 4 + 3] > 128) {
+                        particles.push({
+                            ox: x, oy: y,
+                            x: Math.random() * W, y: Math.random() * H,
+                            vx: 0, vy: 0,
+                        });
+                    }
+                }
+            }
+        }
+
+        let last = performance.now();
+        function frame(now) {
+            const dt = Math.min((now - last) / 16.667, 3);
+            last = now;
+            const damp = Math.pow(0.86, dt);
+
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = style.getPropertyValue("--fg").trim();
+            ctx.beginPath();
+
+            for (const p of particles) {
+                p.vx += (p.ox - p.x) * 0.045 * dt;
+                p.vy += (p.oy - p.y) * 0.045 * dt;
+
+                const dx = p.x - mouse.x;
+                const dy = p.y - mouse.y;
+                const d2 = dx * dx + dy * dy;
+                if (d2 < RADIUS * RADIUS && d2 > 0.01) {
+                    const d = Math.sqrt(d2);
+                    const f = (1 - d / RADIUS) * 3.5 * dt;
+                    p.vx += (dx / d) * f;
+                    p.vy += (dy / d) * f;
+                }
+
+                p.vx *= damp;
+                p.vy *= damp;
+                p.x += p.vx * dt;
+                p.y += p.vy * dt;
+
+                ctx.moveTo(p.x + 1.6, p.y);
+                ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+            }
+            ctx.fill();
+            requestAnimationFrame(frame);
+        }
+
+        window.addEventListener("pointermove", (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener("pointerup", (e) => {
+            if (e.pointerType === "touch") mouse.x = mouse.y = -9999;
+        });
+        document.addEventListener("mouseleave", () => {
+            mouse.x = mouse.y = -9999;
+        });
+        window.addEventListener("pointerdown", (e) => {
+            if (e.target.closest("button")) return;
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            for (const p of particles) {
+                const dx = p.x - e.clientX;
+                const dy = p.y - e.clientY;
+                const d = Math.hypot(dx, dy) || 1;
+                if (d < 280) {
+                    const f = (1 - d / 280) * 22;
+                    p.vx += (dx / d) * f;
+                    p.vy += (dy / d) * f;
+                }
+            }
+        });
+        window.addEventListener("resize", build);
+        window.addEventListener("online", () => location.reload());
+
+        build();
+        requestAnimationFrame(frame);
+    </script>
+</body>
+
+</html>

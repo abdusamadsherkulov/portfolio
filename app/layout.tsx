@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Cursor from "@/components/Cursor";
+import ServiceWorker from "@/components/ServiceWorker";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${inter.className} bg-white text-neutral-900 antialiased dark:bg-neutral-950 dark:text-neutral-100`}
       >
         <Cursor />
+        <ServiceWorker />
         {children}
       </body>
     </html>

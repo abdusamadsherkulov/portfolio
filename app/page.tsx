@@ -1,50 +1,58 @@
 import Section from "@/components/Section";
 import { profile, projects, skills, certificates } from "@/data/content";
 import CertificateList from "@/components/CertificateList";
+import DotGrid from "@/components/DotGrid";
+import ScrollProgress from "@/components/ScrollProgress";
+import NavLinks from "@/components/NavLinks";
+import CopyEmail from "@/components/CopyEmail";
+import TechBars from "@/components/TechBars";
 
 const nav = ["projects", "about", "certificates", "contact"];
 
 export default function Home() {
   return (
     <>
+      <ScrollProgress />
       <header className="sticky top-0 z-10 border-b border-neutral-200/60 bg-white/80 backdrop-blur dark:border-neutral-800/60 dark:bg-neutral-950/80">
         <nav className="mx-auto flex max-w-3xl items-center justify-between px-5 sm:px-8 py-4">
           <a href="#" className="font-semibold">
             {profile.name}
           </a>
-          <ul className="flex gap-4 sm:gap-6 text-sm text-neutral-600 dark:text-neutral-400">
-            {nav.map((item) => (
-              <li key={item}>
-                <a
-                  href={`#${item}`}
-                  className="capitalize transition hover:text-neutral-900 dark:hover:text-white"
-                >
-                  {item}
-                </a>
-              </li>
-            ))}
-          </ul>
+          <NavLinks items={nav} />
         </nav>
       </header>
 
       <main className="mx-auto max-w-3xl px-5 sm:px-8">
         {/* Hero */}
-        <section className="animate-fade-up py-20 sm:py-32 lg:py-40">
-          <p className="flex items-center gap-2 text-sm text-neutral-500">
+        <section className="relative isolate py-20 sm:py-32 lg:py-40">
+          <DotGrid />
+          <p
+            className="flex animate-fade-up items-center gap-2 text-sm text-neutral-500 motion-reduce:animate-none"
+            style={{ animationDelay: "0ms" }}
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-neutral-900 dark:bg-green-500" />
             Available for work
           </p>
-          <h1 className="mt-6 text-4xl font-semibold tracking-tighter sm:mt-8 sm:text-6xl lg:text-7xl">
+          <h1
+            className="mt-6 animate-fade-up text-4xl font-semibold tracking-tighter motion-reduce:animate-none sm:mt-8 sm:text-6xl lg:text-7xl"
+            style={{ animationDelay: "120ms" }}
+          >
             {profile.name}
             <br />
             <span className="text-neutral-400 dark:text-neutral-600">
               {profile.role}.
             </span>
           </h1>
-          <p className="mt-8 max-w-xl text-lg text-neutral-600 dark:text-neutral-400">
+          <p
+            className="mt-8 max-w-xl animate-fade-up text-lg text-neutral-600 motion-reduce:animate-none dark:text-neutral-400"
+            style={{ animationDelay: "240ms" }}
+          >
             {profile.intro}
           </p>
-          <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
+          <div
+            className="mt-8 flex animate-fade-up flex-wrap gap-3 motion-reduce:animate-none sm:mt-10"
+            style={{ animationDelay: "360ms" }}
+          >
             <a
               href="#projects"
               className="rounded-full bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
@@ -107,11 +115,6 @@ export default function Home() {
           </ul>
         </Section>
 
-        {/* Certificates */}
-        <Section id="certificates" title="Certificates">
-          <CertificateList items={certificates} />
-        </Section>
-
         {/* About */}
         <Section id="about" title="About">
           <p className="max-w-xl text-neutral-600 dark:text-neutral-400">
@@ -127,6 +130,15 @@ export default function Home() {
               </li>
             ))}
           </ul>
+          <div className="mt-12 max-w-xl">
+            <p className="mb-5 text-sm text-neutral-500">Most used across my projects</p>
+            <TechBars />
+          </div>
+        </Section>
+
+        {/* Certificates */}
+        <Section id="certificates" title="Certificates">
+          <CertificateList items={certificates} />
         </Section>
 
         {/* Contact */}
@@ -134,12 +146,7 @@ export default function Home() {
           <p className="text-neutral-600 dark:text-neutral-400">
             Open to work. The best way to reach me is email.
           </p>
-          <a
-            href={`mailto:${profile.email}`}
-            className="mt-4 inline-block break-all text-lg font-semibold underline decoration-neutral-300 underline-offset-4 transition hover:decoration-current sm:text-2xl dark:decoration-neutral-700"
-          >
-            {profile.email}
-          </a>
+          <CopyEmail email={profile.email} />
           <div className="mt-6 flex gap-5 text-sm text-neutral-500">
             <a href={profile.github} className="hover:text-current">GitHub</a>
             <a href={profile.linkedin} className="hover:text-current">LinkedIn</a>
